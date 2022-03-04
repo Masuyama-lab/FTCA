@@ -26,12 +26,10 @@ minCIM = net.minCIM;
 
 for sampleNum = 1:size(DATA,1)
     
-    N = 50; % Number of data points for estimating a kernel bandwidth
-    
     % Calculate an initial adaptiveSig based on inputs.
-    if isempty(weight) == 1 && ((sampleNum-1) + N <= size(DATA,1))
+    if isempty(weight) == 1 && ((sampleNum-1) + Lambda <= size(DATA,1))
         % Extract inputs
-        exNodes = DATA( sampleNum:(sampleNum-1) + N , :);
+        exNodes = DATA( sampleNum:(sampleNum-1) + Lambda , :);
         
         % Normalization [0-1]
 %         for k=1:size(exNodes,2)
@@ -50,9 +48,9 @@ for sampleNum = 1:size(DATA,1)
         % https://www.sciencedirect.com/science/article/abs/pii/S0167715212002921
         estSig = median( ((4/(2+d))^(1/(4+d))) * exNodesStd * n^(-1/(4+d)) );
         
-    elseif mod(sampleNum, N) == 1 && (sampleNum - N) >= 0
+    elseif mod(sampleNum, Lambda) == 1 && (sampleNum - Lambda) >= 0
         % Extract inputs
-        exNodes = DATA( (sampleNum+1) - N:sampleNum, :);
+        exNodes = DATA( (sampleNum+1) - Lambda:sampleNum, :);
         
         % Normalization [0-1]  
 %         for k=1:size(exNodes,2)
